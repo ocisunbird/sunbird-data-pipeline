@@ -776,14 +776,9 @@
     "ioConfig":{
       "type":"index",
       "firehose" : {
-        "type" : "static-azure-blobstore",
-        "blobs": [
-          {
-            "container": "telemetry-data-store",
-            "path": "/druid-content-snapshot/snapshot.txt"
-          }
-        ],
-        "fetchTimeout": 120000
+        "type" : "static-s3",
+        "uris": [ "s3://odev-dev-diksha-telemetry/druid-content-snapshot/snapshot.txt"],
+        "fetchTimeout": 300000
       }
     },
     "tuningConfig":{
