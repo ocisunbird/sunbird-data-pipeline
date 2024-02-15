@@ -70,7 +70,7 @@ additionalPrometheusRules: []
 global:
   rbac:
     create: true
-    pspEnabled: true
+    pspEnabled: false
     pspAnnotations: {}
       ## Specify pod annotations
       ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#apparmor
@@ -1041,7 +1041,7 @@ kube-state-metrics:
   rbac:
     create: true
   podSecurityPolicy:
-    enabled: true
+    enabled: false
 
 ## Deploy node exporter as a daemonset to all nodes
 ##
