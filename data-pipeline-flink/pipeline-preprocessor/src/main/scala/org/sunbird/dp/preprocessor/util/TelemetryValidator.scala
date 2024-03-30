@@ -17,6 +17,7 @@ class TelemetryValidator(config: PipelinePreprocessorConfig) extends java.io.Ser
   def validate(event: Event, context: ProcessFunction[Event, Event]#Context, metrics: Metrics): Boolean = {
     val isSchemaPresent: Boolean = schemaValidator.schemaFileExists(event)
     if (isSchemaPresent) {
+      logger.info(s"Telemetry Event is: $event")
       val validationReport = schemaValidator.validate(event, isSchemaPresent = isSchemaPresent)
       if (validationReport.isSuccess) {
         onValidationSuccess(event, metrics, context)
