@@ -24,9 +24,9 @@ class TelemetryValidator(config: PipelinePreprocessorConfig) extends java.io.Ser
         onValidationSuccess(event, metrics, context)
       } else {
         println(s"Before validationFailure event: $event")
-        onValidationFailure(event, metrics, context, validationReport)
+        //onValidationFailure(event, metrics, context, validationReport)
       }
-      validationReport.isSuccess
+      if(validationReport.isSuccess) true else false
     } else {
       onMissingSchema(event, metrics, context, "Schema not found: eid looks incorrect, sending to failed")
       false
