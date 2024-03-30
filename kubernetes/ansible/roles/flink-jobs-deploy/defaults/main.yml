@@ -342,5 +342,5 @@ flink_job_names:
     scale_enabled: false 
 
 ### controlling the flink jobs log level
-flink_jobs_console_log_level: INFO
+flink_jobs_console_log_level: DEBUG
 flink_libraries_log_level: ERROR
