@@ -54,9 +54,9 @@ class SchemaValidator(config: PipelinePreprocessorConfig) extends java.io.Serial
   @throws[ProcessingException]
   def validate(event: Event, isSchemaPresent:Boolean): ProcessingReport = {
     val etsValue = event.getTelemetry.map.get("ets")
-    println(s"Ets value $etsValue and original map ${event.getTelemetry.map}")
+    logger.debug(s"Ets value $etsValue and original map ${event.getTelemetry.map}")
     event.getTelemetry.map.put("ets",java.lang.Long.valueOf(etsValue.toString))
-    println(s"Update map ${event.getTelemetry.map}")
+    logger.debug(s"Update map ${event.getTelemetry.map}")
     val eventJson = objectMapper.convertValue[JsonNode](event.getTelemetry.map, classOf[JsonNode])
     val report = if(isSchemaPresent) schemaJsonMap(event.schemaName).validate(eventJson) else schemaJsonMap(config.defaultSchemaFile).validate(eventJson)
     report
