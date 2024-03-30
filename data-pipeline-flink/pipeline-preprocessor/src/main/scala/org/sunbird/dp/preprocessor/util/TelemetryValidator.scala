@@ -17,16 +17,13 @@ class TelemetryValidator(config: PipelinePreprocessorConfig) extends java.io.Ser
   def validate(event: Event, context: ProcessFunction[Event, Event]#Context, metrics: Metrics): Boolean = {
     val isSchemaPresent: Boolean = schemaValidator.schemaFileExists(event)
     if (isSchemaPresent) {
-      logger.debug(s"Telemetry Event is: $event")
       val validationReport = schemaValidator.validate(event, isSchemaPresent = isSchemaPresent)
-      logger.debug(s"after coming from schemaValidator $validationReport and validationReport = ${validationReport.isSuccess}")
       if (validationReport.isSuccess) {
         onValidationSuccess(event, metrics, context)
       } else {
-        println(s"Before validationFailure event: $event")
-        //onValidationFailure(event, metrics, context, validationReport)
+        onValidationFailure(event, metrics, context, validationReport)
       }
-      if(validationReport.isSuccess) true else false
+      validationReport.isSuccess
     } else {
       onMissingSchema(event, metrics, context, "Schema not found: eid looks incorrect, sending to failed")
       false
@@ -51,7 +48,6 @@ class TelemetryValidator(config: PipelinePreprocessorConfig) extends java.io.Ser
 
   def onValidationFailure(event: Event, metrics: Metrics, context: ProcessFunction[Event, Event]#Context, validationReport: ProcessingReport): Unit = {
     val failedErrorMsg = schemaValidator.getInvalidFieldName(validationReport.toString)
-    logger.debug(s"Telemetry schema failed Event: $event")
     logger.debug(s"Telemetry schema validation is failed for: ${event.mid()} and error message is: ${validationReport.toString}")
     event.markValidationFailure(failedErrorMsg, config.VALIDATION_FLAG_NAME)
     metrics.incCounter(config.validationFailureMetricsCount)
