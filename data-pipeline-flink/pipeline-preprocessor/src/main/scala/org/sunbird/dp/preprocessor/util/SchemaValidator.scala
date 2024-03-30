@@ -55,11 +55,29 @@ class SchemaValidator(config: PipelinePreprocessorConfig) extends java.io.Serial
   def validate(event: Event, isSchemaPresent:Boolean): ProcessingReport = {
     val etsValue = event.getTelemetry.map.get("ets")
     logger.debug(s"Ets value $etsValue and original map ${event.getTelemetry.map}")
-    event.getTelemetry.map.put("ets",java.lang.Long.valueOf(etsValue.toString))
+    event.getTelemetry.map.put("ets",java.lang.Long.valueOf(parseString(etsValue.toString)))
     logger.debug(s"Update map ${event.getTelemetry.map}")
     val eventJson = objectMapper.convertValue[JsonNode](event.getTelemetry.map, classOf[JsonNode])
     val report = if(isSchemaPresent) schemaJsonMap(event.schemaName).validate(eventJson) else schemaJsonMap(config.defaultSchemaFile).validate(eventJson)
     report
+  }
+
+  def parseString(input: String): Long = {
+    try {
+      // Try parsing as long directly
+      input.toLong
+    } catch {
+      case _: NumberFormatException =>
+        try {
+          // Try parsing as double and then converting to long
+          val doubleValue = input.toDouble
+          doubleValue.toLong
+        } catch {
+          case _: NumberFormatException =>
+            // If parsing fails, return 0 or handle as needed
+            0L
+        }
+    }
   }
 
   def getInvalidFieldName(errorInfo: String): String = {
