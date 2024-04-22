@@ -66,7 +66,7 @@ class DeviceProfile() {
     values.put(config.deviceSpec, gson.toJson(DeviceProfile.getValueOrDefault(this.devicespec, new util.HashMap[String, String])))
     values.put(config.firstAccess, DeviceProfile.getValueOrDefault(String.valueOf(this.firstAccess), ""))
     values.put(config.userDeclaredOn, DeviceProfile.getValueOrDefault(String.valueOf(this.userDeclaredOn), ""))
-    values.put(config.apiLastUpdatedOn, DeviceProfile.getValueOrDefault(String.valueOf(this.apiLastUpdatedOn), "")
+    values.put(config.apiLastUpdatedOn, DeviceProfile.getValueOrDefault(String.valueOf(this.apiLastUpdatedOn), ""))
     values.put(config.userSelectedRole, DeviceProfile.getValueOrDefault(this.userSelectedRole, ""))
     values
   }
