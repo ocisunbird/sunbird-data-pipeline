@@ -31,6 +31,7 @@ class DeviceProfile() {
   private var apiLastUpdatedOn: Long = 0L
   private val gson = new Gson
   private val `type` = new TypeToken[util.HashMap[String, String]]() {}.getType
+  private var userSelectedRole: String = _
 
   this.countryCode = ""
   this.country = ""
@@ -47,6 +48,7 @@ class DeviceProfile() {
   this.firstAccess = 0L
   this.userDeclaredOn = 0L
   this.apiLastUpdatedOn = 0L
+  this.userSelectedRole = ""
 
   def toMap(config: DeviceProfileUpdaterConfig): util.Map[String, String] = {
     val values = new util.HashMap[String, String]
@@ -64,7 +66,8 @@ class DeviceProfile() {
     values.put(config.deviceSpec, gson.toJson(DeviceProfile.getValueOrDefault(this.devicespec, new util.HashMap[String, String])))
     values.put(config.firstAccess, DeviceProfile.getValueOrDefault(String.valueOf(this.firstAccess), ""))
     values.put(config.userDeclaredOn, DeviceProfile.getValueOrDefault(String.valueOf(this.userDeclaredOn), ""))
-    values.put(config.apiLastUpdatedOn, DeviceProfile.getValueOrDefault(String.valueOf(this.apiLastUpdatedOn), ""))
+    values.put(config.apiLastUpdatedOn, DeviceProfile.getValueOrDefault(String.valueOf(this.apiLastUpdatedOn), "")
+    values.put(config.userSelectedRole, DeviceProfile.getValueOrDefault(this.userSelectedRole, ""))
     values
   }
 
@@ -84,6 +87,7 @@ class DeviceProfile() {
     this.firstAccess = map.getOrDefault("first_access", "0").asInstanceOf[Number].longValue()
     this.userDeclaredOn = map.getOrDefault(config.apiLastUpdatedOn, "0").asInstanceOf[Number].longValue()
     this.apiLastUpdatedOn = map.getOrDefault(config.apiLastUpdatedOn, "0").asInstanceOf[Number].longValue()
+    this.userSelectedRole = map.getOrDefault(config.userSelectedRole, "")
     this
   }
 }
