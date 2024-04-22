@@ -99,6 +99,13 @@ class DeviceProfileUpdaterFunction(config: DeviceProfileUpdaterConfig,
      */
     val postgresQuery = String.format("INSERT INTO %s (api_last_updated_on,updated_date,%s) VALUES(?,?,%s?) ON CONFLICT(device_id) DO UPDATE SET (api_last_updated_on,updated_date,%s)=(?,?,%s?);", config.postgresTable, columns, values, columns, values)
 
+    logger.debug("postgresQuery:::::::::::::::::::"+postgresQuery);
+    logger.info("postgresQuery:::::::::::::::::::"+postgresQuery);
+    logger.debug("columns:::::::::::::::::::" + columns);
+    logger.info("columns:::::::::::::::::::" + columns);
+    logger.debug("values:::::::::::::::::::" + values);
+    logger.info("values:::::::::::::::::::" + values);
+
     val preparedStatement = postgresConnect.getConnection.prepareStatement(postgresQuery)
     preparedStatement.setTimestamp(1, new Timestamp(lastUpdatedDate)) // Adding api_last_updated_on as timestamp to index 1 of preparestatement
 
