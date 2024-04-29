@@ -56,7 +56,7 @@ class DeviceProfileUpdaterConfig(override val config: Config) extends BaseJobCon
   val deviceId = "device_id"
 
   val fields = List(countryCode, country, stateCode, state, city, districtCustom, stateCustom, stateCustomCode,
-    userDeclaredDistrict, uaSpec, deviceSpec, firstAccess, userDeclaredOn, apiLastUpdatedOn
+    userDeclaredDistrict, uaSpec, deviceSpec, firstAccess, userDeclaredOn, apiLastUpdatedOn, userSelectedRole
   )
 
   // Consumers
