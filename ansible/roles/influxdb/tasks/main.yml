@@ -3,13 +3,17 @@
   #hostname: name={{ ansible_hostname }}
 
 - name: Import InfluxDB GPG signing key
-  apt_key: url=https://repos.influxdata.com/influxdb.key state=present
+  apt_key: url=https://repos.influxdata.com/influxdata-archive_compat.key state=present
 
 - name: Add InfluxDB repository
   apt_repository: repo='deb https://repos.influxdata.com/ubuntu trusty stable' state=present
 
 - name: Install InfluxDB packages
   apt: name=influxdb state=present
+  notify: restart influxdb service
+
+- name: Install InfluxDB client packages
+  apt: name=influxdb-client state=present
   notify: restart influxdb service
 
 - name: Replace InfluxDB cluster configuration
